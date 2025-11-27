@@ -28,6 +28,7 @@
     </scm>
     <properties>
         <java.version>21</java.version>
+        <org.mapstruct.version>1.6.3</org.mapstruct.version>
     </properties>
     <dependencies>
         <dependency>
@@ -68,22 +69,42 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${org.mapstruct.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
+            <!-- Plugin para compilar o código e processar as anotações do Lombok e MapStruct -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
                 <configuration>
+                    <source>21</source> <!-- Usando Java 21, conforme p projeto -->
+                    <target>21</target> <!-- Usando Java 21, conforme o projeto -->
                     <annotationProcessorPaths>
+                        <!-- Processador de anotações Lombok -->
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                         </path>
+
+                        <!-- Processador de anotações MapStruct -->
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${org.mapstruct.version}</version> <!-- Usando a versão configurada no <properties> -->
+                        </path>
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+
+            <!-- Plugin Spring Boot para construir o projeto -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -98,5 +119,6 @@
             </plugin>
         </plugins>
     </build>
+
 
 </project>
