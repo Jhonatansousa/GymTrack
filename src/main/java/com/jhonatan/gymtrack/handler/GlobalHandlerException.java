@@ -2,6 +2,7 @@ package com.jhonatan.gymtrack.handler;
 
 import com.jhonatan.gymtrack.dto.APIResponse;
 import com.jhonatan.gymtrack.dto.ErrorDTO;
+import com.jhonatan.gymtrack.exception.DuplicatedContentException;
 import com.jhonatan.gymtrack.exception.InvalidCredentialsException;
 import com.jhonatan.gymtrack.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -39,6 +40,11 @@ public class GlobalHandlerException {
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<APIResponse<Void>> handleInvalidCredentials(InvalidCredentialsException ex) {
         return new ResponseEntity<>(ResponseUtils.buildSingleError(ex.getMessage()), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(DuplicatedContentException.class)
+    public ResponseEntity<APIResponse<Void>> handleDuplicatedContent(DuplicatedContentException ex) {
+        return new ResponseEntity<>(ResponseUtils.buildSingleError(ex.getMessage()), HttpStatus.CONFLICT);
     }
 
 }
