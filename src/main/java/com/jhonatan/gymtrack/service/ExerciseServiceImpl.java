@@ -23,13 +23,13 @@ public class ExerciseServiceImpl implements IExerciseService {
     private final UserRepo userRepo;
     private final WorkoutDivisionRepo divisionRepo;
     private final ExerciseMapper mapper;
+    private final UserContext userContext;
 
     @Override
     @Transactional
     public ExerciseResponseDTO createExercise(ExerciseDTO exerciseDTO) {
-        //recuperando usuario autenticado
-        String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepo.findByEmail(userEmail);
+
+        User user = userContext.getCurrentUser();
 
         WorkoutDivision division = divisionRepo.findByIdAndUser(exerciseDTO.workoutDivisionId(), user)
                 .orElseThrow( () -> new ResourceNotFoundException("Workout Division Not Found or Access Denied!"));

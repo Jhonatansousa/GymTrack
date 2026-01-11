@@ -20,24 +20,20 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class WorkoutServiceImpl  implements IWorkoutService {
 
     public final UserRepo userRepo;
     public final WorkoutDivisionRepo repo;
     public final WorkoutDivisionMapper mapper;
+    public final UserContext userContext;
 
     @Override
     @Transactional
     public WorkoutDivisionResponseDTO createDivision(WorkoutDivisionDTO dto) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userEmail = authentication.getName();
-        User user = userRepo.findByEmail(userEmail);
-        if(user == null) {
-            throw new ResourceNotFoundException("User not found");
-        }
+        User user = userContext.getCurrentUser();
 
-        //if exists by name ignore case -> throw new duplicated content execption
         if(repo.existsByNameIgnoreCaseAndUser(dto.name(), user)) {
             throw new DuplicatedContentException("Division name already exists. Please choose a different name");
         }
@@ -53,8 +49,8 @@ public class WorkoutServiceImpl  implements IWorkoutService {
 
     @Override
     public List<WorkoutDivisionResponseDTO> getAllDivisions() {
-        String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepo.findByEmail(userEmail);
+
+        User user = userContext.getCurrentUser();
 
         List<WorkoutDivision> divisions = repo.findAllByUser(user);
 
