@@ -14,6 +14,8 @@ public interface ExerciseMapper {
     @Mapping(target = "workoutDivision", ignore = true)
     Exercise toEntity(ExerciseDTO dto);
 
+    @Mapping(target = "exerciseId", source = "id")
+    @Mapping(target = "exerciseName", source = "name")
     @Mapping(target = "workoutDivisionId", source = "workoutDivision.id")
     ExerciseResponseDTO toDTO(Exercise exercise);
 }

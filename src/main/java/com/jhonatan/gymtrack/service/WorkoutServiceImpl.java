@@ -16,6 +16,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class WorkoutServiceImpl  implements IWorkoutService {
@@ -47,5 +49,15 @@ public class WorkoutServiceImpl  implements IWorkoutService {
         WorkoutDivision newDivision = repo.save(division);
         return mapper.toDTO(newDivision);
 
+    }
+
+    @Override
+    public List<WorkoutDivisionResponseDTO> getAllDivisions() {
+        String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepo.findByEmail(userEmail);
+
+        List<WorkoutDivision> divisions = repo.findAllByUser(user);
+
+        return divisions.stream().map(mapper::toDTO).toList();
     }
 }
