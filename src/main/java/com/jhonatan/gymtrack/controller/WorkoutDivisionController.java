@@ -22,7 +22,7 @@ public class WorkoutDivisionController {
     public final IWorkoutService workoutService;
 
 
-    @PostMapping("/new")
+    @PostMapping
     public ResponseEntity<APIResponse<WorkoutDivisionResponseDTO>> newDivision(@Valid @RequestBody WorkoutDivisionDTO dto) {
 
         WorkoutDivisionResponseDTO res = workoutService.createDivision(dto);

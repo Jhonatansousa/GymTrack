@@ -20,7 +20,7 @@ public class ExerciseController {
 
     public final IExerciseService service;
 
-    @PostMapping("/new")
+    @PostMapping
     public ResponseEntity<APIResponse<ExerciseResponseDTO>> newExercise(@Valid @RequestBody ExerciseDTO exerciseDTO) {
 
         ExerciseResponseDTO res = service.createExercise(exerciseDTO);

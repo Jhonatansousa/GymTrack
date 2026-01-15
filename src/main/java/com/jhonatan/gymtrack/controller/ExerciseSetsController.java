@@ -21,7 +21,7 @@ public class ExerciseSetsController {
 
     private final IExerciseSetService service;
 
-    @PostMapping("/new")
+    @PostMapping
     public ResponseEntity<APIResponse<ExerciseSetResponseDTO>> createSet(@Valid @RequestBody ExerciseSetDTO dto) {
 
         ExerciseSetResponseDTO res = service.createNewSet(dto);
