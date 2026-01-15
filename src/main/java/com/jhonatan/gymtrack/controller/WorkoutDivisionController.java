@@ -48,7 +48,7 @@ public class WorkoutDivisionController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-    @PatchMapping("/update")
+    @PatchMapping
     public ResponseEntity<APIResponse<WorkoutDivisionResponseDTO>> updateDivision(@Valid @RequestBody DivisionUpdateDTO dto) {
         WorkoutDivisionResponseDTO res = workoutService.updateDivision(dto);
 

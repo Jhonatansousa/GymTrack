@@ -24,7 +24,7 @@ public class ExerciseSetServiceImpl implements IExerciseSetService {
     private final ExerciseSetMapper mapper;
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor =  Exception.class)
     public ExerciseSetResponseDTO createNewSet(ExerciseSetDTO dto) {
         User currentUser = userContext.getCurrentUser();
 

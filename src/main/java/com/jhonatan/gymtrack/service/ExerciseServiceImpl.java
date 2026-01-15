@@ -25,7 +25,7 @@ public class ExerciseServiceImpl implements IExerciseService {
     private final UserContext userContext;
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ExerciseResponseDTO createExercise(ExerciseDTO exerciseDTO) {
 
         User user = userContext.getCurrentUser();

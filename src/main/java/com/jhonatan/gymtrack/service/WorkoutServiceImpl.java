@@ -19,7 +19,6 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class WorkoutServiceImpl  implements IWorkoutService {
 
     public final UserRepo userRepo;
@@ -28,7 +27,7 @@ public class WorkoutServiceImpl  implements IWorkoutService {
     public final UserContext userContext;
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public WorkoutDivisionResponseDTO createDivision(WorkoutDivisionDTO dto) {
 
         User user = userContext.getCurrentUser();
@@ -47,6 +46,7 @@ public class WorkoutServiceImpl  implements IWorkoutService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<WorkoutDivisionResponseDTO> getAllDivisions() {
 
         User user = userContext.getCurrentUser();
@@ -58,6 +58,7 @@ public class WorkoutServiceImpl  implements IWorkoutService {
 
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public WorkoutDivisionResponseDTO updateDivision(DivisionUpdateDTO divisionUpdateDTO) {
 
         //User user = userContext.getCurrentUser();
@@ -66,6 +67,7 @@ public class WorkoutServiceImpl  implements IWorkoutService {
 
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleteDivision(long divisionId) {
         User user = userContext.getCurrentUser();
 

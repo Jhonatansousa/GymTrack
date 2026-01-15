@@ -27,6 +27,7 @@ public class AuthServiceImpl implements IAuthService {
     private final PasswordEncoder encoder;
 
     @Override
+    @Transactional(readOnly = true)
     public AuthToken login(LoginRequestDTO request) {
 
         System.out.println(request.getEmail());
@@ -45,7 +46,7 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor =  Exception.class)
     public void register(RegisterRequestDTO request) {
 
 
