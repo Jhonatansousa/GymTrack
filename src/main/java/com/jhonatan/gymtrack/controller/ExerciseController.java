@@ -1,8 +1,8 @@
 package com.jhonatan.gymtrack.controller;
 
 import com.jhonatan.gymtrack.dto.APIResponse;
-import com.jhonatan.gymtrack.dto.ExerciseDTO;
-import com.jhonatan.gymtrack.dto.ExerciseResponseDTO;
+import com.jhonatan.gymtrack.dto.exercise.ExerciseDTO;
+import com.jhonatan.gymtrack.dto.exercise.ExerciseResponseDTO;
 import com.jhonatan.gymtrack.service.IExerciseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

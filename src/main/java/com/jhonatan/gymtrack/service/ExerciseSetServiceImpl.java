@@ -1,8 +1,8 @@
 package com.jhonatan.gymtrack.service;
 
 
-import com.jhonatan.gymtrack.dto.ExerciseSetDTO;
-import com.jhonatan.gymtrack.dto.ExerciseSetResponseDTO;
+import com.jhonatan.gymtrack.dto.exerciseset.ExerciseSetDTO;
+import com.jhonatan.gymtrack.dto.exerciseset.ExerciseSetResponseDTO;
 import com.jhonatan.gymtrack.entity.Exercise;
 import com.jhonatan.gymtrack.entity.ExerciseSet;
 import com.jhonatan.gymtrack.entity.User;

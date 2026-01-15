@@ -1,7 +1,7 @@
 package com.jhonatan.gymtrack.service;
 
-import com.jhonatan.gymtrack.dto.ExerciseDTO;
-import com.jhonatan.gymtrack.dto.ExerciseResponseDTO;
+import com.jhonatan.gymtrack.dto.exercise.ExerciseDTO;
+import com.jhonatan.gymtrack.dto.exercise.ExerciseResponseDTO;
 import com.jhonatan.gymtrack.entity.Exercise;
 import com.jhonatan.gymtrack.entity.User;
 import com.jhonatan.gymtrack.entity.WorkoutDivision;
@@ -11,7 +11,6 @@ import com.jhonatan.gymtrack.repository.ExerciseRepo;
 import com.jhonatan.gymtrack.repository.UserRepo;
 import com.jhonatan.gymtrack.repository.WorkoutDivisionRepo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

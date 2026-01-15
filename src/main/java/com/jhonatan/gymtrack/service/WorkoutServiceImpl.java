@@ -1,8 +1,9 @@
 package com.jhonatan.gymtrack.service;
 
 
-import com.jhonatan.gymtrack.dto.WorkoutDivisionDTO;
-import com.jhonatan.gymtrack.dto.WorkoutDivisionResponseDTO;
+import com.jhonatan.gymtrack.dto.workoutdivision.DivisionUpdateDTO;
+import com.jhonatan.gymtrack.dto.workoutdivision.WorkoutDivisionDTO;
+import com.jhonatan.gymtrack.dto.workoutdivision.WorkoutDivisionResponseDTO;
 import com.jhonatan.gymtrack.entity.User;
 import com.jhonatan.gymtrack.entity.WorkoutDivision;
 import com.jhonatan.gymtrack.exception.DuplicatedContentException;
@@ -11,8 +12,6 @@ import com.jhonatan.gymtrack.mapper.WorkoutDivisionMapper;
 import com.jhonatan.gymtrack.repository.UserRepo;
 import com.jhonatan.gymtrack.repository.WorkoutDivisionRepo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,5 +54,24 @@ public class WorkoutServiceImpl  implements IWorkoutService {
         List<WorkoutDivision> divisions = repo.findAllByUser(user);
 
         return divisions.stream().map(mapper::toDTO).toList();
+    }
+
+
+    @Override
+    public WorkoutDivisionResponseDTO updateDivision(DivisionUpdateDTO divisionUpdateDTO) {
+
+        //User user = userContext.getCurrentUser();
+        return null;
+    }
+
+
+    @Override
+    public void deleteDivision(long divisionId) {
+        User user = userContext.getCurrentUser();
+
+        WorkoutDivision division = repo.findByIdAndUser(divisionId, user)
+                .orElseThrow(() -> new ResourceNotFoundException("Workout Division not found"));
+
+        repo.delete(division);
     }
 }

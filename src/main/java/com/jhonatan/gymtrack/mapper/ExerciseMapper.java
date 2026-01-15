@@ -1,7 +1,7 @@
 package com.jhonatan.gymtrack.mapper;
 
-import com.jhonatan.gymtrack.dto.ExerciseDTO;
-import com.jhonatan.gymtrack.dto.ExerciseResponseDTO;
+import com.jhonatan.gymtrack.dto.exercise.ExerciseDTO;
+import com.jhonatan.gymtrack.dto.exercise.ExerciseResponseDTO;
 import com.jhonatan.gymtrack.entity.Exercise;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

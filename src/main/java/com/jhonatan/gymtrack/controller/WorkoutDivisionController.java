@@ -1,8 +1,9 @@
 package com.jhonatan.gymtrack.controller;
 
 import com.jhonatan.gymtrack.dto.APIResponse;
-import com.jhonatan.gymtrack.dto.WorkoutDivisionDTO;
-import com.jhonatan.gymtrack.dto.WorkoutDivisionResponseDTO;
+import com.jhonatan.gymtrack.dto.workoutdivision.DivisionUpdateDTO;
+import com.jhonatan.gymtrack.dto.workoutdivision.WorkoutDivisionDTO;
+import com.jhonatan.gymtrack.dto.workoutdivision.WorkoutDivisionResponseDTO;
 import com.jhonatan.gymtrack.service.IWorkoutService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -46,4 +47,29 @@ public class WorkoutDivisionController {
 
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
+
+    @PatchMapping("/update")
+    public ResponseEntity<APIResponse<WorkoutDivisionResponseDTO>> updateDivision(@Valid @RequestBody DivisionUpdateDTO dto) {
+        WorkoutDivisionResponseDTO res = workoutService.updateDivision(dto);
+
+        APIResponse<WorkoutDivisionResponseDTO> apiResponse = APIResponse.<WorkoutDivisionResponseDTO>builder()
+                .status("SUCCESS")
+                .results(res)
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
+
+    @DeleteMapping("/{divisionId}")
+    public ResponseEntity<APIResponse<Void>> deleteDivision(@PathVariable long divisionId) {
+        workoutService.deleteDivision(divisionId);
+
+        APIResponse<Void> apiResponse = APIResponse.<Void>builder()
+                .status("SUCCESS")
+                .build();
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
+
 }

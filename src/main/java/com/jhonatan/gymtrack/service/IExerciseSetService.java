@@ -1,7 +1,7 @@
 package com.jhonatan.gymtrack.service;
 
-import com.jhonatan.gymtrack.dto.ExerciseSetDTO;
-import com.jhonatan.gymtrack.dto.ExerciseSetResponseDTO;
+import com.jhonatan.gymtrack.dto.exerciseset.ExerciseSetDTO;
+import com.jhonatan.gymtrack.dto.exerciseset.ExerciseSetResponseDTO;
 
 public interface IExerciseSetService {
     ExerciseSetResponseDTO createNewSet(ExerciseSetDTO exerciseSetDTO);

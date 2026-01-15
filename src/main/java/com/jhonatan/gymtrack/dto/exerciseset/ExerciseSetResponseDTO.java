@@ -1,4 +1,4 @@
-package com.jhonatan.gymtrack.dto;
+package com.jhonatan.gymtrack.dto.exerciseset;
 
 public record ExerciseSetResponseDTO(
         Long exerciseId,
