@@ -15,11 +15,11 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/divisions")
+@RequestMapping("/api/v1/divisions")
 public class WorkoutDivisionController {
 
 
-    public final IWorkoutService workoutService;
+    private final IWorkoutService workoutService;
 
 
     @PostMapping
