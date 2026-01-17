@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/division")
+@RequestMapping("/divisions")
 public class WorkoutDivisionController {
 
 
@@ -48,9 +48,13 @@ public class WorkoutDivisionController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-    @PatchMapping
-    public ResponseEntity<APIResponse<WorkoutDivisionResponseDTO>> updateDivision(@Valid @RequestBody DivisionUpdateDTO dto) {
-        WorkoutDivisionResponseDTO res = workoutService.updateDivision(dto);
+    @PatchMapping("/{divisionId}")//clean URL -> PATCH /divisions/1
+    public ResponseEntity<APIResponse<WorkoutDivisionResponseDTO>> updateDivision(
+            @PathVariable Long divisionId,
+            @Valid @RequestBody DivisionUpdateDTO dto) {
+
+        //nesse caso eu devo passar o id no path e o dto (novo nome) no body
+        WorkoutDivisionResponseDTO res = workoutService.updateDivision(divisionId, dto);
 
         APIResponse<WorkoutDivisionResponseDTO> apiResponse = APIResponse.<WorkoutDivisionResponseDTO>builder()
                 .status("SUCCESS")

@@ -59,10 +59,23 @@ public class WorkoutServiceImpl  implements IWorkoutService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public WorkoutDivisionResponseDTO updateDivision(DivisionUpdateDTO divisionUpdateDTO) {
+    public WorkoutDivisionResponseDTO updateDivision(Long divisionID, DivisionUpdateDTO dto) {
 
-        //User user = userContext.getCurrentUser();
-        return null;
+        User user = userContext.getCurrentUser();
+
+        WorkoutDivision division = repo.findByIdAndUser(divisionID, user)
+                .orElseThrow(() -> new  ResourceNotFoundException("Workout division with id " + divisionID + " does not exist"));
+
+        //nome existente != novo nome && se já existe uma divisão com o novo nome dentro do usuário logado
+        if(!division.getName().equalsIgnoreCase(dto.newName()) && repo.existsByNameIgnoreCaseAndUser(dto.newName(), user)) {
+            throw new DuplicatedContentException("Division name already exists. Please choose a different name,  o erro ta aqui");
+        }
+
+        division.setName(dto.newName());
+
+        //aqui posso usar Dirty Checking, sem precisar do repo.save(...)
+        //return mapper.toDTO(repo.save(division));
+        return mapper.toDTO(division);
     }
 
 

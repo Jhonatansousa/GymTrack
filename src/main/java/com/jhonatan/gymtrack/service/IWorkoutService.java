@@ -11,7 +11,7 @@ public interface IWorkoutService {
 
     List<WorkoutDivisionResponseDTO> getAllDivisions();
 
-    WorkoutDivisionResponseDTO updateDivision(DivisionUpdateDTO divisionUpdateDTO);
+    WorkoutDivisionResponseDTO updateDivision(Long divisionId, DivisionUpdateDTO divisionUpdateDTO);
 
     void deleteDivision(long divisionId);
 
