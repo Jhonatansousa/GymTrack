@@ -19,9 +19,8 @@ public class WebSecurityConfig {
 
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((auth) -> {
-                    auth.requestMatchers("/login").permitAll()
-                        .requestMatchers("/register").permitAll()
-                        .requestMatchers("/getuser").permitAll()
+                    auth.requestMatchers("/api/v1/auth/**").permitAll()
+                        //.requestMatchers("/register").permitAll()
                         .anyRequest().authenticated();
                 })
                 .addFilterBefore(new AuthFilter(), UsernamePasswordAuthenticationFilter.class);
