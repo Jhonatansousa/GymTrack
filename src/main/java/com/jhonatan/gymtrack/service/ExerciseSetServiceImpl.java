@@ -3,6 +3,7 @@ package com.jhonatan.gymtrack.service;
 
 import com.jhonatan.gymtrack.dto.exerciseset.ExerciseSetDTO;
 import com.jhonatan.gymtrack.dto.exerciseset.ExerciseSetResponseDTO;
+import com.jhonatan.gymtrack.dto.exerciseset.ExerciseSetUpdateDTO;
 import com.jhonatan.gymtrack.entity.Exercise;
 import com.jhonatan.gymtrack.entity.ExerciseSet;
 import com.jhonatan.gymtrack.entity.User;
@@ -52,5 +53,28 @@ public class ExerciseSetServiceImpl implements IExerciseSetService {
                 .build();
 
         return mapper.toDTO(setRepo.save(exerciseSet));
+    }
+
+
+    @Override
+    @Transactional(rollbackFor =  Exception.class)
+    public void updateExerciseSet(Long id, ExerciseSetUpdateDTO dto) {
+        User currentUser = userContext.getCurrentUser();
+
+        ExerciseSet exerciseSet = setRepo.findByIdAndUser(id, currentUser)
+                .orElseThrow(() -> new ResourceNotFoundException("Exercise not found"));
+
+
+        if (dto.newName() != null) {
+            exerciseSet.setName(dto.newName());
+        }
+
+        if (dto.reps() != null) {
+            exerciseSet.setReps(dto.reps());
+        }
+
+        if (dto.weight() != null) {
+            exerciseSet.setWeight(dto.weight());
+        }
     }
 }

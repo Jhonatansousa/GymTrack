@@ -3,15 +3,13 @@ package com.jhonatan.gymtrack.controller;
 import com.jhonatan.gymtrack.dto.APIResponse;
 import com.jhonatan.gymtrack.dto.exerciseset.ExerciseSetDTO;
 import com.jhonatan.gymtrack.dto.exerciseset.ExerciseSetResponseDTO;
+import com.jhonatan.gymtrack.dto.exerciseset.ExerciseSetUpdateDTO;
 import com.jhonatan.gymtrack.service.IExerciseSetService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/sets")
@@ -32,6 +30,17 @@ public class ExerciseSetsController {
                 .build();
 
         return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
+    }
+
+    @PatchMapping("/{exerciseSetId}")
+    public ResponseEntity<Void> updateSet(
+            @PathVariable Long exerciseSetId,
+            @Valid @RequestBody ExerciseSetUpdateDTO dto) {
+
+        service.updateExerciseSet(exerciseSetId, dto);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
     }
 
 }
