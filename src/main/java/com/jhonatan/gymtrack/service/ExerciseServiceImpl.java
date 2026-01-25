@@ -56,4 +56,15 @@ public class ExerciseServiceImpl implements IExerciseService {
         }
         exercise.setName(dto.newExerciseName());
     }
+
+    @Override
+    @Transactional
+    public void deleteExercise(Long exerciseId) {
+        User user = userContext.getCurrentUser();
+
+        Exercise exercise = repo.findByIdAndUser(exerciseId, user)
+                .orElseThrow(() -> new ResourceNotFoundException("Exercise Not Found!"));
+
+        repo.delete(exercise);
+    }
 }

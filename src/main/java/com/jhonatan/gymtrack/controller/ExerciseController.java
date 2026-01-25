@@ -35,7 +35,7 @@ public class ExerciseController {
     //get
 
     @PatchMapping("/{exerciseId}")
-    public ResponseEntity<APIResponse<Void>> updateExercise(
+    public ResponseEntity<Void> updateExercise(
             @PathVariable Long exerciseId,
             @Valid @RequestBody ExerciseUpdateDTO dto) {
 
@@ -45,6 +45,13 @@ public class ExerciseController {
 
         return new  ResponseEntity<>(HttpStatus.NO_CONTENT);
 
+    }
+
+    @DeleteMapping("{exerciseId}")
+    public ResponseEntity<Void> deleteExercise(@PathVariable Long exerciseId) {
+        service.deleteExercise(exerciseId);
+
+        return new  ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

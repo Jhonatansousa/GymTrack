@@ -62,7 +62,7 @@ public class ExerciseSetServiceImpl implements IExerciseSetService {
         User currentUser = userContext.getCurrentUser();
 
         ExerciseSet exerciseSet = setRepo.findByIdAndUser(id, currentUser)
-                .orElseThrow(() -> new ResourceNotFoundException("Exercise not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Set not found"));
 
 
         if (dto.newName() != null) {
@@ -77,4 +77,15 @@ public class ExerciseSetServiceImpl implements IExerciseSetService {
             exerciseSet.setWeight(dto.weight());
         }
     }
+
+    @Override
+    @Transactional
+    public void deleteExerciseSet(Long id) {
+        User currentUser = userContext.getCurrentUser();
+        ExerciseSet exerciseSet = setRepo.findByIdAndUser(id, currentUser)
+                .orElseThrow(() -> new ResourceNotFoundException("Set Set not found"));
+
+        setRepo.delete(exerciseSet);
+    }
+
 }

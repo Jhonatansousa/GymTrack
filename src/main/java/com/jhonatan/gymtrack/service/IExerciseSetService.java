@@ -8,4 +8,6 @@ public interface IExerciseSetService {
     ExerciseSetResponseDTO createNewSet(ExerciseSetDTO exerciseSetDTO);
 
     void updateExerciseSet(Long id, ExerciseSetUpdateDTO exerciseSetUpdateDTO);
+
+    void deleteExerciseSet(Long exerciseSetId);
 }

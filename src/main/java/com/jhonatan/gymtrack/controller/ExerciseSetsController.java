@@ -43,4 +43,10 @@ public class ExerciseSetsController {
 
     }
 
+    @DeleteMapping("/{exerciseSetId}")
+    public ResponseEntity<Void> deleteSet(@PathVariable Long exerciseSetId) {
+        service.deleteExerciseSet(exerciseSetId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
 }

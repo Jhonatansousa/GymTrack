@@ -8,4 +8,6 @@ public interface IExerciseService {
     ExerciseResponseDTO createExercise(ExerciseDTO exerciseDTO);
 
     void updateExercise(Long id, ExerciseUpdateDTO dto);
+
+    void deleteExercise(Long exerciseId);
 }
