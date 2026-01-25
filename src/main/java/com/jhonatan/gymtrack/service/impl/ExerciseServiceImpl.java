@@ -1,4 +1,4 @@
-package com.jhonatan.gymtrack.service;
+package com.jhonatan.gymtrack.service.impl;
 
 import com.jhonatan.gymtrack.dto.exercise.ExerciseDTO;
 import com.jhonatan.gymtrack.dto.exercise.ExerciseResponseDTO;
@@ -10,11 +10,14 @@ import com.jhonatan.gymtrack.exception.DuplicatedContentException;
 import com.jhonatan.gymtrack.exception.ResourceNotFoundException;
 import com.jhonatan.gymtrack.mapper.ExerciseMapper;
 import com.jhonatan.gymtrack.repository.ExerciseRepo;
-import com.jhonatan.gymtrack.repository.UserRepo;
 import com.jhonatan.gymtrack.repository.WorkoutDivisionRepo;
+import com.jhonatan.gymtrack.service.IExerciseService;
+import com.jhonatan.gymtrack.service.UserContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +41,20 @@ public class ExerciseServiceImpl implements IExerciseService {
         exercise.setWorkoutDivision(division);
         Exercise savedExercise = repo.save(exercise);
         return mapper.toDTO(savedExercise);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ExerciseResponseDTO> getExercisesByDivision(Long divisionId) {
+        User user = userContext.getCurrentUser();
+
+        WorkoutDivision division = divisionRepo.findByIdAndUser(divisionId, user)
+                .orElseThrow(() -> new ResourceNotFoundException("Workout Division Not Found!"));
+
+        List<Exercise> exercises = repo.findAllByWorkoutDivision(division);
+
+        return exercises.stream().map(mapper::toDTO).toList();
+
     }
 
     @Override

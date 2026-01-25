@@ -1,4 +1,4 @@
-package com.jhonatan.gymtrack.service;
+package com.jhonatan.gymtrack.service.impl;
 
 
 import com.jhonatan.gymtrack.dto.workoutdivision.DivisionUpdateDTO;
@@ -11,6 +11,8 @@ import com.jhonatan.gymtrack.exception.ResourceNotFoundException;
 import com.jhonatan.gymtrack.mapper.WorkoutDivisionMapper;
 import com.jhonatan.gymtrack.repository.UserRepo;
 import com.jhonatan.gymtrack.repository.WorkoutDivisionRepo;
+import com.jhonatan.gymtrack.service.IWorkoutService;
+import com.jhonatan.gymtrack.service.UserContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

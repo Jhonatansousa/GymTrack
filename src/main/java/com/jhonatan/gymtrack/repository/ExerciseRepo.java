@@ -6,6 +6,7 @@ import com.jhonatan.gymtrack.entity.WorkoutDivision;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ExerciseRepo extends JpaRepository<Exercise, Long> {
@@ -15,5 +16,7 @@ public interface ExerciseRepo extends JpaRepository<Exercise, Long> {
 
     // Para validar duplicidade de nome DENTRO da mesma divisão na hora do update
     boolean existsByNameIgnoreCaseAndWorkoutDivision(String name, WorkoutDivision workoutDivision);
+
+    List<Exercise> findAllByWorkoutDivision(WorkoutDivision workoutDivision);
 
 }

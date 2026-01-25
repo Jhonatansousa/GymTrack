@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/sets")
 @RequiredArgsConstructor
@@ -30,6 +32,19 @@ public class ExerciseSetsController {
                 .build();
 
         return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
+    }
+
+    @GetMapping("{exerciseId}")
+    public ResponseEntity<APIResponse<List<ExerciseSetResponseDTO>>> getSetsByExercise(@PathVariable Long exerciseId) {
+
+        List<ExerciseSetResponseDTO> res = service.getSetsByExercise(exerciseId);
+
+        APIResponse<List<ExerciseSetResponseDTO>> apiResponse = APIResponse.<List<ExerciseSetResponseDTO>>builder()
+                .status("SUCCESS")
+                .results(res)
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     @PatchMapping("/{exerciseSetId}")

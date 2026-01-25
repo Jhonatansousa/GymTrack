@@ -1,4 +1,4 @@
-package com.jhonatan.gymtrack.service;
+package com.jhonatan.gymtrack.service.impl;
 
 
 import com.jhonatan.gymtrack.dto.authDto.LoginRequestDTO;
@@ -10,6 +10,7 @@ import com.jhonatan.gymtrack.mapper.UserMapper;
 import com.jhonatan.gymtrack.repository.UserRepo;
 import com.jhonatan.gymtrack.security.AuthToken;
 import com.jhonatan.gymtrack.security.TokenUtil;
+import com.jhonatan.gymtrack.service.IAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

@@ -6,6 +6,7 @@ import com.jhonatan.gymtrack.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ExerciseSetRepo extends JpaRepository<ExerciseSet, Long> {
@@ -17,4 +18,6 @@ public interface ExerciseSetRepo extends JpaRepository<ExerciseSet, Long> {
      * que pertence ao usuário específico passado no param -> (User user)*/
     @Query("SELECT s FROM ExerciseSet s WHERE s.id = :id AND s.exercise.workoutDivision.user = :user")
     Optional<ExerciseSet> findByIdAndUser(Long id, User user);
+
+    List<ExerciseSet> findAllByExerciseIdOrderByIdAsc(Long id);
 }

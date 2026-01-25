@@ -1,4 +1,4 @@
-package com.jhonatan.gymtrack.service;
+package com.jhonatan.gymtrack.service.impl;
 
 
 import com.jhonatan.gymtrack.dto.exerciseset.ExerciseSetDTO;
@@ -11,9 +11,13 @@ import com.jhonatan.gymtrack.exception.ResourceNotFoundException;
 import com.jhonatan.gymtrack.mapper.ExerciseSetMapper;
 import com.jhonatan.gymtrack.repository.ExerciseRepo;
 import com.jhonatan.gymtrack.repository.ExerciseSetRepo;
+import com.jhonatan.gymtrack.service.IExerciseSetService;
+import com.jhonatan.gymtrack.service.UserContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -53,6 +57,19 @@ public class ExerciseSetServiceImpl implements IExerciseSetService {
                 .build();
 
         return mapper.toDTO(setRepo.save(exerciseSet));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ExerciseSetResponseDTO> getSetsByExercise(Long exerciseId) {
+        User currentUser = userContext.getCurrentUser();
+
+        Exercise exercise = exerciseRepo.findByIdAndUser(exerciseId, currentUser)
+                .orElseThrow(() -> new ResourceNotFoundException("Exercise Not Found!"));
+
+        List<ExerciseSet> sets = setRepo.findAllByExerciseIdOrderByIdAsc(exercise.getId());
+
+        return sets.stream().map(mapper::toDTO).toList();
     }
 
 

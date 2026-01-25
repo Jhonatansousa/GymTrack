@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/exercises")
@@ -32,7 +34,18 @@ public class ExerciseController {
 
     }
 
-    //get
+    @GetMapping("/{divisionId}")
+    public ResponseEntity<APIResponse<List<ExerciseResponseDTO>>> getExercisesByDivision(@PathVariable Long divisionId) {
+
+        List<ExerciseResponseDTO> res = service.getExercisesByDivision(divisionId);
+
+        APIResponse<List<ExerciseResponseDTO>> apiResponse = APIResponse.<List<ExerciseResponseDTO>>builder()
+                .status("SUCCESS")
+                .results(res)
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
 
     @PatchMapping("/{exerciseId}")
     public ResponseEntity<Void> updateExercise(
