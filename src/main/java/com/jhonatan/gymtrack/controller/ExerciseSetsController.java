@@ -4,6 +4,7 @@ import com.jhonatan.gymtrack.dto.APIResponse;
 import com.jhonatan.gymtrack.dto.exerciseset.ExerciseSetDTO;
 import com.jhonatan.gymtrack.dto.exerciseset.ExerciseSetResponseDTO;
 import com.jhonatan.gymtrack.dto.exerciseset.ExerciseSetUpdateDTO;
+import com.jhonatan.gymtrack.factory.ApiResponseFactory;
 import com.jhonatan.gymtrack.service.IExerciseSetService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,43 +26,32 @@ public class ExerciseSetsController {
     public ResponseEntity<APIResponse<ExerciseSetResponseDTO>> createSet(@Valid @RequestBody ExerciseSetDTO dto) {
 
         ExerciseSetResponseDTO res = service.createNewSet(dto);
-
-        APIResponse<ExerciseSetResponseDTO> apiResponse = APIResponse.<ExerciseSetResponseDTO>builder()
-                .status("SUCCESS")
-                .results(res)
-                .build();
-
-        return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
+        return new ResponseEntity<>(ApiResponseFactory.success(res), HttpStatus.CREATED);
     }
+
 
     @GetMapping("{exerciseId}")
     public ResponseEntity<APIResponse<List<ExerciseSetResponseDTO>>> getSetsByExercise(@PathVariable Long exerciseId) {
 
         List<ExerciseSetResponseDTO> res = service.getSetsByExercise(exerciseId);
-
-        APIResponse<List<ExerciseSetResponseDTO>> apiResponse = APIResponse.<List<ExerciseSetResponseDTO>>builder()
-                .status("SUCCESS")
-                .results(res)
-                .build();
-
-        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+        return new ResponseEntity<>(ApiResponseFactory.success(res), HttpStatus.OK);
     }
 
+
     @PatchMapping("/{exerciseSetId}")
-    public ResponseEntity<Void> updateSet(
+    public ResponseEntity<APIResponse<Void>> updateSet(
             @PathVariable Long exerciseSetId,
             @Valid @RequestBody ExerciseSetUpdateDTO dto) {
 
         service.updateExerciseSet(exerciseSetId, dto);
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
+        return new ResponseEntity<>(ApiResponseFactory.success(), HttpStatus.OK);
     }
+
 
     @DeleteMapping("/{exerciseSetId}")
-    public ResponseEntity<Void> deleteSet(@PathVariable Long exerciseSetId) {
-        service.deleteExerciseSet(exerciseSetId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
+    public ResponseEntity<APIResponse<Void>> deleteSet(@PathVariable Long exerciseSetId) {
 
+        service.deleteExerciseSet(exerciseSetId);
+        return new ResponseEntity<>(ApiResponseFactory.success(), HttpStatus.OK);
+    }
 }

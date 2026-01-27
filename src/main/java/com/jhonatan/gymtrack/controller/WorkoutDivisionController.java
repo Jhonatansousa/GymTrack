@@ -4,6 +4,7 @@ import com.jhonatan.gymtrack.dto.APIResponse;
 import com.jhonatan.gymtrack.dto.workoutdivision.DivisionUpdateDTO;
 import com.jhonatan.gymtrack.dto.workoutdivision.WorkoutDivisionDTO;
 import com.jhonatan.gymtrack.dto.workoutdivision.WorkoutDivisionResponseDTO;
+import com.jhonatan.gymtrack.factory.ApiResponseFactory;
 import com.jhonatan.gymtrack.service.IWorkoutService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,34 +19,21 @@ import java.util.List;
 @RequestMapping("/api/v1/divisions")
 public class WorkoutDivisionController {
 
-
     private final IWorkoutService workoutService;
-
 
     @PostMapping
     public ResponseEntity<APIResponse<WorkoutDivisionResponseDTO>> newDivision(@Valid @RequestBody WorkoutDivisionDTO dto) {
 
         WorkoutDivisionResponseDTO res = workoutService.createDivision(dto);
-
-        APIResponse<WorkoutDivisionResponseDTO> apiResponse = APIResponse.<WorkoutDivisionResponseDTO>builder()
-                .status("SUCCESS")
-                .results(res)
-                .build();
-
-        return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
+        return new ResponseEntity<>(ApiResponseFactory.success(res), HttpStatus.CREATED);
     }
 
 
     @GetMapping
     public ResponseEntity<APIResponse<List<WorkoutDivisionResponseDTO>>> getAllDivisions() {
+
         List<WorkoutDivisionResponseDTO> res = workoutService.getAllDivisions();
-
-        APIResponse<List<WorkoutDivisionResponseDTO>> apiResponse = APIResponse.<List<WorkoutDivisionResponseDTO>>builder()
-                .status("SUCCESS")
-                .results(res)
-                .build();
-
-        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+        return new ResponseEntity<>(ApiResponseFactory.success(res), HttpStatus.OK);
     }
 
     @PatchMapping("/{divisionId}")//clean URL -> PATCH /divisions/1
@@ -53,26 +41,16 @@ public class WorkoutDivisionController {
             @PathVariable Long divisionId,
             @Valid @RequestBody DivisionUpdateDTO dto) {
 
-        //nesse caso eu devo passar o id no path e o dto (novo nome) no body
         WorkoutDivisionResponseDTO res = workoutService.updateDivision(divisionId, dto);
-
-        APIResponse<WorkoutDivisionResponseDTO> apiResponse = APIResponse.<WorkoutDivisionResponseDTO>builder()
-                .status("SUCCESS")
-                .results(res)
-                .build();
-
-        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+        return new ResponseEntity<>(ApiResponseFactory.success(res), HttpStatus.OK);
     }
 
 
     @DeleteMapping("/{divisionId}")
     public ResponseEntity<APIResponse<Void>> deleteDivision(@PathVariable long divisionId) {
-        workoutService.deleteDivision(divisionId);
 
-        APIResponse<Void> apiResponse = APIResponse.<Void>builder()
-                .status("SUCCESS")
-                .build();
-        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+        workoutService.deleteDivision(divisionId);
+        return new ResponseEntity<>(ApiResponseFactory.success(), HttpStatus.OK);
     }
 
 
