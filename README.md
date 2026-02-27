@@ -95,6 +95,6 @@ Este projeto está em evolução contínua. As próximas implementações inclue
 
 Jhonatan Estudante de Engenharia de Software e Desenvolvedor Backend Java.
 
-(LinkedIn)[https://www.linkedin.com/in/jhonatansdasilva/]
+    [LinkedIn](https://www.linkedin.com/in/jhonatansdasilva/)
 
-(GitHub)[https://github.com/Jhonatansousa]
+    [GitHub](https://github.com/Jhonatansousa)
