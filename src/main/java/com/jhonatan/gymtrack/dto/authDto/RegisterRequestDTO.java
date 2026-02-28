@@ -1,5 +1,6 @@
 package com.jhonatan.gymtrack.dto.authDto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -13,17 +14,24 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
+@Schema(description = "Data Transfer Object for User Registration")
 public class RegisterRequestDTO {
 
+    @Schema(description = "User's full name", example = "John Doe")
     @NotBlank
     @Size(min = 1, max = 100)
     private String name;
 
+    @Schema(description = "User's email address", example = "johndoe@example.com")
     @NotBlank
     @Size(min = 1, max = 100)
     @Email
     private String email;
 
+    @Schema(
+            description = "User's password. Must contain at least one uppercase letter, one lowercase letter, one number, and one special character.",
+            example = "StrongP@ssw0rd!"
+    )
     @NotBlank
     @Pattern(
             regexp = "^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",

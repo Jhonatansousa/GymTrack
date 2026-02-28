@@ -14,6 +14,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class WebSecurityConfig {
 
+    private static final String[] SWAGGER_LIST = {
+            "/swagger-ui/**",
+            "/swagger-ui.html",
+            "/v3/api-docs/**",
+            "/swagger-resources/**"
+    };
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
@@ -21,6 +28,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((auth) -> {
                     auth.requestMatchers("/api/v1/auth/**").permitAll()
                         //.requestMatchers("/register").permitAll()
+                        .requestMatchers(SWAGGER_LIST).permitAll()
                         .anyRequest().authenticated();
                 })
                 .addFilterBefore(new AuthFilter(), UsernamePasswordAuthenticationFilter.class);
