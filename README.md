@@ -23,6 +23,7 @@ Este projeto backend foi construído para demonstrar conhecimentos em desenvolvi
 - **Gerenciamento de Exercícios:** - Adição de exercícios a uma divisão específica.
     - Exclusão em cascata para as séries vinculadas.
 - **Registro de Séries (Sets):** - Controle de carga e repetições por exercício.
+- **Documentação Interativa**: API totalmente documentada utilizando Swagger UI, permitindo a visualização dos DTOs e testes das rotas protegidas diretamente pelo navegador.
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -36,9 +37,10 @@ Este projeto backend foi construído para demonstrar conhecimentos em desenvolvi
 - MapStruct (Mapeamento de Entidades para DTOs)
 - Lombok (Redução de boilerplate)
 
-**Infraestrutura e Testes:**
+**Infraestrutura, Testes e Documentação:**
 - Docker & Docker Compose (Containerização do banco de dados)
 - JUnit 5 & Mockito (Testes Unitários)
+- Springdoc OpenAPI / Swagger UI (Documentação da API)
 
 ## 🏗️ Arquitetura e Padrões Aplicados
 
@@ -79,7 +81,7 @@ Este projeto está em evolução contínua. As próximas implementações inclue
 
     [ ] Integração Front-end: Repositório separado utilizando Angular para consumo da API.
 
-    [ ] Documentação da API: Implementação do Swagger (OpenAPI 3) para testar e documentar os endpoints.
+    [X] Documentação da API: Implementação do Swagger (OpenAPI 3) para testar e documentar os endpoints.
 
     [ ] Qualidade de Código: Integração com SonarQube e JaCoCo para análise estática e cobertura de testes.
 
