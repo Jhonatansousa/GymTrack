@@ -1,5 +1,6 @@
 package com.jhonatan.gymtrack.security;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,7 +13,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class WebSecurityConfig {
+
+    private final TokenUtil tokenUtil;
 
     private static final String[] SWAGGER_LIST = {
             "/swagger-ui/**",
@@ -31,7 +35,7 @@ public class WebSecurityConfig {
                         .requestMatchers(SWAGGER_LIST).permitAll()
                         .anyRequest().authenticated();
                 })
-                .addFilterBefore(new AuthFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new AuthFilter(tokenUtil), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

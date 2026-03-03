@@ -6,21 +6,30 @@ import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.ArrayList;
 import java.util.Date;
 
+@Component
 public class TokenUtil {
 
     public static final String ISSUER = "GymTrack";
-    public static final long EXPIRATION_TIME = 7*24*60*60*1000;
-    public static final String SECRET_KEY = "01234567890123456789012345678901234567890";
 
-    public static AuthToken encodeToken(TokenDataDTO userData) {
+    // Puxa o valor configurado no application.properties / variáveis de ambiente
+    @Value("${jwt.secret}")
+    private String SECRET_KEY;
+
+    @Value("${jwt.expiration}")
+    private long EXPIRATION_TIME;
+
+
+    public AuthToken encodeToken(TokenDataDTO userData) {
         try {
             Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
             String jwtToken = Jwts.builder()
@@ -37,7 +46,7 @@ public class TokenUtil {
         }
     }
 
-    public static Authentication decodeToken(HttpServletRequest request) {
+    public Authentication decodeToken(HttpServletRequest request) {
         try {
             String token = request.getHeader("Authorization");
             if (token != null) {
@@ -55,7 +64,7 @@ public class TokenUtil {
                 }
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.err.println("invalid Token or expired: " + e.getMessage());
         }
         return null;
     }

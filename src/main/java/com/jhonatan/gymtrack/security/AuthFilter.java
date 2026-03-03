@@ -13,17 +13,22 @@ import java.io.IOException;
 
 public class AuthFilter extends OncePerRequestFilter {
 
+    private final TokenUtil tokenUtil;
+
+    public AuthFilter(TokenUtil tokenUtil) {
+        this.tokenUtil = tokenUtil;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        if (request.getHeader("Authorization") != null) {
-            Authentication auth = TokenUtil.decodeToken(request);
-            if (auth != null) {
-                SecurityContextHolder.getContext().setAuthentication(auth);
-            }
+// Usa a instância recebida no construtor
+        Authentication auth = tokenUtil.decodeToken(request);
+
+        if (auth != null) {
+            SecurityContextHolder.getContext().setAuthentication(auth);
         }
 
         filterChain.doFilter(request, response);

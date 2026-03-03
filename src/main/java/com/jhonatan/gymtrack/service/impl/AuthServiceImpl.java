@@ -26,6 +26,7 @@ public class AuthServiceImpl implements IAuthService {
     private final UserRepo repo;
     private final UserMapper mapper;
     private final PasswordEncoder encoder;
+    private final TokenUtil tokenUtil;
 
     @Override
     @Transactional(readOnly = true)
@@ -42,7 +43,7 @@ public class AuthServiceImpl implements IAuthService {
 
         TokenDataDTO tokenData = new TokenDataDTO(res.getEmail(), roles);
 
-        return TokenUtil.encodeToken(tokenData);
+        return tokenUtil.encodeToken(tokenData);
 
     }
 
