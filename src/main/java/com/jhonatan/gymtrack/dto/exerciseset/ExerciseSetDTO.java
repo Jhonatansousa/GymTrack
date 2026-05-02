@@ -10,7 +10,6 @@ public record ExerciseSetDTO(
         @Schema(description = "ID of the exercise to which the set belongs", example = "5")
         long exerciseId,
 
-        @NotBlank
         @Schema(description = "Name of the set", example = "Warmup set")
         String name,
 
