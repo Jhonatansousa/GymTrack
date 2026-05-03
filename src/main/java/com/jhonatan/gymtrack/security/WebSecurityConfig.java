@@ -37,12 +37,15 @@ public class WebSecurityConfig {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests((auth) -> {
-                    auth.requestMatchers("/api/v1/auth/**").permitAll()
-                        //.requestMatchers("/register").permitAll()
+                .authorizeHttpRequests(auth -> auth
+                        // ── Endpoints públicos (não exigem token) ──────────────────
+                        .requestMatchers("/api/v1/auth/login").permitAll()
+                        .requestMatchers("/api/v1/auth/register").permitAll()
                         .requestMatchers(SWAGGER_LIST).permitAll()
-                        .anyRequest().authenticated();
-                })
+                        // ── Endpoints protegidos (exigem cookie/token válido) ──────
+                        // /me e /logout são autenticados — o filtro valida o cookie
+                        .anyRequest().authenticated()
+                )
                 .addFilterBefore(new AuthFilter(tokenUtil), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
@@ -53,11 +56,18 @@ public class WebSecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         //endereço do angular padrão de desenvolvimento local !!!!TROCAR EM PROD!!!!!
         config.setAllowedOrigins(List.of("http://localhost:4200"));
+
         //métodos http permitidos
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE"));
+
         //cabeçalhos permitidos, importante pro Bearer Token
-        config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
-        //pode enviar cookies ou antenticação via browser se necessario
+        config.setAllowedHeaders(Arrays.asList(
+                "Authorization", //fallback p/ swagger
+                "Content-Type",
+                "Cookie" //necessario pro browser enviar o cookie jwt
+        ));
+
+        //pode enviar cookies ou antenticação via browser se necessario (essencial pro cookie funcionar cross-origin)
         config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

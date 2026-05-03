@@ -5,11 +5,13 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.WebUtils;
 
 import javax.crypto.SecretKey;
 import java.security.Key;
@@ -46,11 +48,23 @@ public class TokenUtil {
         }
     }
 
+    private String extractRawToken(HttpServletRequest request) {
+        Cookie jwtCookie = WebUtils.getCookie(request, "jwt");
+        if (jwtCookie != null && !jwtCookie.getValue().isBlank()) {
+            return jwtCookie.getValue();
+        }
+
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            return authHeader.substring(7);
+        }
+        return null;
+    }
+
     public Authentication decodeToken(HttpServletRequest request) {
         try {
-            String token = request.getHeader("Authorization");
+            String token = extractRawToken(request);
             if (token != null) {
-                token = token.replace("Bearer ", "");
                 SecretKey secretKey = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
                 JwtParser parser = Jwts.parser().verifyWith(secretKey).build();
                 Claims claims = (Claims) parser.parse(token).getPayload();
