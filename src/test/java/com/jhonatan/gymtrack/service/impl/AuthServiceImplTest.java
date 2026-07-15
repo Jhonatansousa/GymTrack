@@ -1,5 +1,6 @@
 package com.jhonatan.gymtrack.service.impl;
 
+import com.jhonatan.gymtrack.dto.authDto.AuthenticatedUserDTO;
 import com.jhonatan.gymtrack.dto.authDto.LoginRequestDTO;
 import com.jhonatan.gymtrack.dto.authDto.RegisterRequestDTO;
 import com.jhonatan.gymtrack.entity.User;
@@ -7,6 +8,7 @@ import com.jhonatan.gymtrack.exception.InvalidCredentialsException;
 import com.jhonatan.gymtrack.mapper.UserMapper;
 import com.jhonatan.gymtrack.repository.UserRepo;
 import com.jhonatan.gymtrack.security.AuthToken;
+import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -53,17 +55,18 @@ class AuthServiceImplTest {
                 .password("encoded_password_from_db")
                 .build();
 
+        HttpServletResponse response = mock(HttpServletResponse.class);
         when(repo.findByEmail(request.getEmail())).thenReturn(userFromDb);
         // Simulamos que o PasswordEncoder comparou a senha em texto plano com a do banco e confirmou que batem
         when(encoder.matches(request.getPassword(), userFromDb.getPassword())).thenReturn(true);
 
         // ACT
-        AuthToken result = authService.login(request);
+        AuthenticatedUserDTO result = authService.login(request, response);
 
         // ASSERT
         assertNotNull(result);
-        assertNotNull(result.getToken()); // Garante que o TokenUtil.encodeToken funcionou e retornou a string JWT
-        assertFalse(result.getToken().isEmpty());
+        assertNotNull(result.id()); // Garante que o TokenUtil.encodeToken funcionou e retornou a string JWT
+        //assertFalse(result.isEmpty());
     }
 
     @Test

@@ -10,6 +10,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -36,7 +38,11 @@ public class WebSecurityConfig {
 
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(csrf -> csrf
+                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                        .csrfTokenRequestHandler(new SpaCsrfTokenRequestHandler())
+                )
+                .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
                         // ── Endpoints públicos (não exigem token) ──────────────────
                         .requestMatchers("/api/v1/auth/login").permitAll()
@@ -64,7 +70,8 @@ public class WebSecurityConfig {
         config.setAllowedHeaders(Arrays.asList(
                 "Authorization", //fallback p/ swagger
                 "Content-Type",
-                "Cookie" //necessario pro browser enviar o cookie jwt
+                "X-XSRF-TOKEN"
+                //"Cookie" //necessario pro browser enviar o cookie jwt
         ));
 
         //pode enviar cookies ou antenticação via browser se necessario (essencial pro cookie funcionar cross-origin)
